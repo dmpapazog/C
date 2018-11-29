@@ -40,14 +40,12 @@ void Eyclid(int x, int y)
 
 int ComputeMKD(int x, int y)
 {
-    int X, Y, remainder;
-    X = x;
-    Y = y;
+    int remainder;
 
-    while (Y != 0) {
-        remainder = X % Y;
-        X         = Y;
-        Y         = remainder;
+    while (y != 0) {
+        remainder = x % y;
+        x         = y;
+        y         = remainder;
     }
-    return X;
+    return x;
 }
