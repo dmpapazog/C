@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../Stack/stack.h"
+#include "../Stack/stack.h" //remember to copy the "stack.o" object
 #include "que.h"
 
 void QUE_reverse(que* q);
