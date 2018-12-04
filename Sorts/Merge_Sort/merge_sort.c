@@ -27,6 +27,8 @@ int main()
     printf("algori8mou ta3inomhshs sygxwneyshs:\n\n");
     print_array(pinakas, megethos);
 
+    system("pause");
+
     return 1;
 }
 
@@ -125,5 +127,5 @@ void print_array(int* pinakas, int n)
     printf("[");
     for (i = 0; i < n - 1; i++)
         printf(" %2d,", pinakas[i]);
-    printf(" %2d ]\n", pinakas[n - 1]);
+    printf(" %2d ]\n", pinakas[i]);
 }
