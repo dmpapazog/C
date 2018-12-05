@@ -20,7 +20,7 @@ int TREE_insert_root(TREE_PTR *root, element x) {
     if (*root != NULL)
         return FALSE;
     
-    newNode = (TREE_NODE *)malloc(sizeof(TREE_NODE));
+    newNode = (TREE_PTR)malloc(sizeof(TREE_NODE));
     if (!newNode) {
         printf("Adunemia deumeshs mnhmhs");
         return FALSE;
@@ -38,7 +38,7 @@ int TREE_insert_left(TREE_PTR node, element x) {
     if (node->left != NULL)
         return FALSE;
     
-    newNode = (TREE_NODE *)malloc(sizeof(TREE_NODE));
+    newNode = (TREE_PTR)malloc(sizeof(TREE_NODE));
     if (!newNode) {
         printf("Adunemia deumeshs mnhmhs");
         return FALSE;
@@ -57,7 +57,7 @@ int TREE_insert_right(TREE_PTR node, element x) {
     if (node->right != NULL)
         return FALSE;
     
-    newNode = (TREE_NODE *)malloc(sizeof(TREE_NODE));
+    newNode = (TREE_PTR)malloc(sizeof(TREE_NODE));
     if (!newNode) {
         printf("Adunemia deumeshs mnhmhs");
         return FALSE;
