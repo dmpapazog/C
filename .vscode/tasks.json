@@ -7,12 +7,16 @@
             "label": "build",
             "type": "shell",
             "dependsOn": "compile",
-            "command": "gcc",
+            "command": "cd",
             "args": [
-                "-g",
-                "${fileDirname}\\*.o",
+                "${fileDirname};",
+                "gcc",
+                "-D__DEBUG_",
+                "*.o",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${fileBasenameNoExtension}.exe",
+                "-m32",
+                "-g3"
             ],
             "group": {
                 "kind": "build",
@@ -33,13 +37,17 @@
         {
             "label": "compile",
             "type": "shell",
-            "command": "gcc",
+            "command": "cd",
             "args": [
-                "-g",
+                "${fileDirname};",
+                "gcc",
+                "-D__DEBUG_",
                 "-c",
-                "${file}",
+                "${fileBasename}",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.o"
+                "${fileBasenameNoExtension}.o",
+                "-m32",
+                "-g3"
             ],
             "problemMatcher": [
                 "$gcc"
@@ -60,9 +68,11 @@
             "args": [
                 "${fileDirname};",
                 "gcc",
-                "-ggdb",
+                "-D__DEBUG_",
                 "-c",
-                "*.c"
+                "*.c",
+                "-m32",
+                "-g3"
             ],
             "problemMatcher": [
                 "$gcc"
