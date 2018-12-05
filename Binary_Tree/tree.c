@@ -146,7 +146,10 @@ void TREE_delete_tree(TREE_PTR *node) {
         *node = NULL;
     }
     else {
-        TREE_delete_tree(&(*node)->left);
-        TREE_delete_tree(&(*node)->right);
+        if ((*node)->left != NULL) {
+            TREE_delete_tree(&(*node)->left);
+        }
+        if ((*node)->right != NULL)
+            TREE_delete_tree(&(*node)->right);
     }
 }
