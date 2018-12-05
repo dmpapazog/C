@@ -79,7 +79,7 @@ void removeChar(char *String, char ch) {
         }
     }
 
-    String = realloc(String, sizeof(char) * end);
+    String = realloc(String, sizeof(char) * (end + 1));
     if (!String) {
         printf("Adunamia desmeushs mnhmhs.\n");
         exit(1);
