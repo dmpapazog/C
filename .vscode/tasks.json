@@ -43,7 +43,7 @@
                 "gcc",
                 "-g",
                 "-c",
-                "${fileBasename}}",
+                "${fileBasename}",
                 "-o",
                 "${fileBasenameNoExtension}.o",
                 // "-m32",
