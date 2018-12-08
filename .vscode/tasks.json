@@ -11,12 +11,12 @@
             "args": [
                 "${fileDirname};",
                 "gcc",
-                "-D__DEBUG_",
+                "-g",
                 "*.o",
                 "-o",
                 "${fileBasenameNoExtension}.exe",
-                "-m32",
-                "-g3"
+                // "-m32",
+                // "-g3"
             ],
             "group": {
                 "kind": "build",
@@ -41,13 +41,13 @@
             "args": [
                 "${fileDirname};",
                 "gcc",
-                "-D__DEBUG_",
+                "-g",
                 "-c",
-                "${fileBasename}",
+                "${fileBasename}}",
                 "-o",
                 "${fileBasenameNoExtension}.o",
-                "-m32",
-                "-g3"
+                // "-m32",
+                // "-g3"
             ],
             "problemMatcher": [
                 "$gcc"
@@ -68,11 +68,11 @@
             "args": [
                 "${fileDirname};",
                 "gcc",
-                "-D__DEBUG_",
+                "-g",
                 "-c",
                 "*.c",
-                "-m32",
-                "-g3"
+                // "-m32",
+                // "-g3"
             ],
             "problemMatcher": [
                 "$gcc"
