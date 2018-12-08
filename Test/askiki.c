@@ -54,6 +54,9 @@ int main(int argc, char const* argv[])
 
             mySunalages[i].typos = 1;
 
+
+
+
             printf("Kataxwrh8hke %s tou posou %d sto onoma %s\n",
                 "kata8esh",
                 mySunalages[i].poso, mySunalages[i].onomatepwnumo);
