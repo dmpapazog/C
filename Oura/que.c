@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "que.h"
 
 void QUE_init(que* q)
