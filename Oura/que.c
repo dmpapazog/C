@@ -3,7 +3,7 @@
 
 void QUE_init(que* q)
 {
-    q->start = -1;
+    q->start  = -1;
     q->finish = -1;
 }
 
@@ -23,7 +23,7 @@ int QUE_enque(que* q, element e)
         return FALSE;
     else {
         if (QUE_empty(*q)) {
-            q->start = 0;
+            q->start  = 0;
             q->finish = 0;
         } else {
             q->finish = (q->finish + 1) % QUE_SIZE;
@@ -42,10 +42,10 @@ int QUE_deque(que* q, element* e)
         *e = q->array[q->start];
 
         if (q->start == q->finish) {
-            q->start = -1;
+            q->start  = -1;
             q->finish = -1;
         } else
-            q->start = (q->start + 1) % QUE_SIZE;
+            q->start  = (q->start + 1) % QUE_SIZE;
         return TRUE;
     }
 }
