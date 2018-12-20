@@ -1,20 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
+
+struct block {
+    int i;
+};
+
+typedef struct block block;
+typedef struct block* blockPTR;
+
+void init_block(blockPTR* b, int size);
+void print_blocks(blockPTR b, int size);
+
 int main()
 {
-    int k[5] = { 3, 1, 7, 2, 6 };
-    float d = 0;
-    int t = 3;
-    int i;
-    for (i = 0; i < 5; i++) {
-        if (k[5] > t)
-            d += k[i];
-        else
-            d++;
-    }
-    d /= 2;
-    printf("%f\n", d);
+    block* my_block;
+    int size = 10;
+
+    init_block(&my_block, size);
+    print_blocks(my_block, size);
+
     system("pause");
 
     return 0;
+}
+
+void init_block(blockPTR* b, int size)
+{
+    blockPTR newBlock;
+    newBlock = (blockPTR)malloc(sizeof(block) * size);
+    if (!newBlock) {
+        printf("Can't allocate memory.\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < size; i++) {
+        (&newBlock[i])->i = i;
+    }
+    *b = newBlock;
+}
+
+void print_blocks(blockPTR b, int size)
+{
+    printf("\n");
+    printf("| ");
+    for (int i = 0; i < size; i++) {
+        printf("%2d| ", b[i].i);
+    }
+    printf("\n");
 }
