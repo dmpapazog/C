@@ -7,12 +7,14 @@
 void SU_init(cellDBL_PTR* grid, double size)
 {
     int side = (int)sqrt(size);
+
     cellDBL_PTR newGrid;
     newGrid = (cellDBL_PTR)malloc(sizeof(cellPTR) * side);
     if (!newGrid) {
         printf("Can't allocate memory.\n");
         exit(1);
     }
+
     for (int i = 0; i < side; i++) {
         newGrid[i] = (cellPTR)malloc(sizeof(cell) * side);
         if (!newGrid[i]) {
@@ -31,14 +33,15 @@ void SU_init(cellDBL_PTR* grid, double size)
     *grid = newGrid;
 }
 
-void SU_fillGrid(cellDBL_PTR* grid, double size)
+void SU_fillGrid(cellDBL_PTR newGrid, double size)
 {
     srand(time(NULL));
 
     int side = (int)sqrt(size);
-    int arrayMaxIndex = 8;
-    int* psifia;
-    int counter = 0;
+
+    int psifia[9];
+    int candidate;
+    int randomIndex;
 
     init_psifia(psifia);
 
@@ -47,45 +50,38 @@ void SU_fillGrid(cellDBL_PTR* grid, double size)
     for (int i = 0; i < side; i++) {
         for (int j = 0; j < side; j++) {
             while (1) {
-                int randomIndex = rand() % (arrayMaxIndex + 1);
-                int candidate = psifia[randomIndex];
+                randomIndex = rand() % (sizeOfArray);
+                candidate = psifia[randomIndex];
 
-                if (SU_isInRow(*grid, *grid[i][j])) {
-                    deleteElement(psifia, sizeOfArray, candidate);
-                    sizeOfArray--;
+                if (SU_isInRow(newGrid, newGrid[i][j], candidate)) {
+                    deleteElement(psifia, &sizeOfArray, candidate);
                     continue;
                 }
-                if (SU_isInColumn(*grid, *grid[i][j])) {
-                    deleteElement(psifia, sizeOfArray, candidate);
-                    sizeOfArray--;
+                if (SU_isInColumn(newGrid, newGrid[i][j], candidate)) {
+                    deleteElement(psifia, &sizeOfArray, candidate);
                     continue;
                 }
-                if (SU_isInBlock(*grid, *grid[i][j])) {
-                    deleteElement(psifia, sizeOfArray, candidate);
-                    sizeOfArray--;
+                if (SU_isInBlock(newGrid, newGrid[i][j], candidate)) {
+                    deleteElement(psifia, &sizeOfArray, candidate);
                     continue;
                 }
 
-                grid[i][j]->digit = candidate;
-                free(psifia);
-                init_psifia(psifia);
+                newGrid[i][j].digit = candidate;
+                sizeOfArray = 9;
                 break;
             }
+            printf("\n8a alla3ei to j???\n");
         }
     }
 }
 
-void deleteElement(int* array, int sizeOfArray, int element)
+void deleteElement(int* array, int* sizeOfArray, int element)
 {
-    for (int i = 0; i < 8; i++) {
-        if (array[i] = element)
+    for (int i = 0; i < *sizeOfArray - 1; i++) {
+        if (array[i] == element)
             swap(&array[i], &array[i + 1]);
     }
-    realloc(array, sizeof(int) * 8);
-    if (!array) {
-        printf("Can't reallocate memory.\n");
-        exit(1);
-    }
+    *sizeOfArray = *sizeOfArray - 1;
 }
 
 void swap(int* a, int* b)
@@ -96,23 +92,7 @@ void swap(int* a, int* b)
     *a = temp;
 }
 
-int SU_isInColumn(cellDBL_PTR grid, cell c)
-{
-    int j = 0;
-    while (j < 9) {
-        if (j == c.j) {
-            j++;
-            continue;
-        }
-        if (grid[c.i][j].digit == c.digit && grid[c.i][j].digit != 0) {
-            return TRUE;
-        }
-        j++;
-    }
-    return FALSE;
-}
-
-int SU_isInRow(cellDBL_PTR grid, cell c)
+int SU_isInColumn(cellDBL_PTR grid, cell c, int candidate)
 {
     int i = 0;
     while (i < 9) {
@@ -120,7 +100,7 @@ int SU_isInRow(cellDBL_PTR grid, cell c)
             i++;
             continue;
         }
-        if (grid[i][c.j].digit == c.digit && grid[i][c.j].digit != 0) {
+        if (grid[i][c.j].digit != 0 && grid[i][c.j].digit == candidate) {
             return TRUE;
         }
         i++;
@@ -128,7 +108,23 @@ int SU_isInRow(cellDBL_PTR grid, cell c)
     return FALSE;
 }
 
-int SU_isInBlock(cellDBL_PTR grid, cell c)
+int SU_isInRow(cellDBL_PTR grid, cell c, int candidate)
+{
+    int j = 0;
+    while (j < 9) {
+        if (j == c.j) {
+            j++;
+            continue;
+        }
+        if (grid[c.i][j].digit != 0 && grid[c.i][j].digit == candidate) {
+            return TRUE;
+        }
+        j++;
+    }
+    return FALSE;
+}
+
+int SU_isInBlock(cellDBL_PTR grid, cell c, int candidate)
 {
     if (c.i < 3) {
         if (c.j < 3) {
@@ -136,7 +132,7 @@ int SU_isInBlock(cellDBL_PTR grid, cell c)
                 for (int j = 0; j < 3; j++) {
                     if (i == c.i && j == c.j)
                         continue;
-                    if (grid[i][j].digit == c.digit && grid[i][j].digit != 0) {
+                    if (grid[i][j].digit == candidate && grid[i][j].digit != 0) {
                         return TRUE;
                     }
                 }
@@ -146,7 +142,7 @@ int SU_isInBlock(cellDBL_PTR grid, cell c)
                 for (int j = 3; j < 6; j++) {
                     if (i == c.i && j == c.j)
                         continue;
-                    if (grid[i][j].digit == c.digit && grid[i][j].digit != 0) {
+                    if (grid[i][j].digit == candidate && grid[i][j].digit != 0) {
                         return TRUE;
                     }
                 }
@@ -156,7 +152,7 @@ int SU_isInBlock(cellDBL_PTR grid, cell c)
                 for (int j = 6; j < 9; j++) {
                     if (i == c.i && j == c.j)
                         continue;
-                    if (grid[i][j].digit == c.digit && grid[i][j].digit != 0) {
+                    if (grid[i][j].digit == candidate && grid[i][j].digit != 0) {
                         return TRUE;
                     }
                 }
@@ -168,7 +164,7 @@ int SU_isInBlock(cellDBL_PTR grid, cell c)
                 for (int j = 0; j < 3; j++) {
                     if (i == c.i && j == c.j)
                         continue;
-                    if (grid[i][j].digit == c.digit && grid[i][j].digit != 0) {
+                    if (grid[i][j].digit == candidate && grid[i][j].digit != 0) {
                         return TRUE;
                     }
                 }
@@ -178,7 +174,7 @@ int SU_isInBlock(cellDBL_PTR grid, cell c)
                 for (int j = 3; j < 6; j++) {
                     if (i == c.i && j == c.j)
                         continue;
-                    if (grid[i][j].digit == c.digit && grid[i][j].digit != 0) {
+                    if (grid[i][j].digit == candidate && grid[i][j].digit != 0) {
                         return TRUE;
                     }
                 }
@@ -188,7 +184,7 @@ int SU_isInBlock(cellDBL_PTR grid, cell c)
                 for (int j = 6; j < 9; j++) {
                     if (i == c.i && j == c.j)
                         continue;
-                    if (grid[i][j].digit == c.digit && grid[i][j].digit != 0) {
+                    if (grid[i][j].digit == candidate && grid[i][j].digit != 0) {
                         return TRUE;
                     }
                 }
@@ -200,7 +196,7 @@ int SU_isInBlock(cellDBL_PTR grid, cell c)
                 for (int j = 0; j < 3; j++) {
                     if (i == c.i && j == c.j)
                         continue;
-                    if (grid[i][j].digit == c.digit && grid[i][j].digit != 0) {
+                    if (grid[i][j].digit == candidate && grid[i][j].digit != 0) {
                         return TRUE;
                     }
                 }
@@ -210,7 +206,7 @@ int SU_isInBlock(cellDBL_PTR grid, cell c)
                 for (int j = 3; j < 6; j++) {
                     if (i == c.i && j == c.j)
                         continue;
-                    if (grid[i][j].digit == c.digit && grid[i][j].digit != 0) {
+                    if (grid[i][j].digit == candidate && grid[i][j].digit != 0) {
                         return TRUE;
                     }
                 }
@@ -220,7 +216,7 @@ int SU_isInBlock(cellDBL_PTR grid, cell c)
                 for (int j = 6; j < 9; j++) {
                     if (i == c.i && j == c.j)
                         continue;
-                    if (grid[i][j].digit == c.digit && grid[i][j].digit != 0) {
+                    if (grid[i][j].digit == candidate && grid[i][j].digit != 0) {
                         return TRUE;
                     }
                 }
@@ -245,15 +241,7 @@ void SU_printGrid(cellDBL_PTR grid)
 
 void init_psifia(int* array)
 {
-    int* psifia;
-    psifia = malloc(sizeof(int) * 9);
-    if (!psifia) {
-        printf("Can't allocate memory.\n");
-        exit(1);
-    }
-
     for (int i = 0; i < 9; i++) {
-        psifia[i] = i + 1;
+        array[i] = i + 1;
     }
-    array = psifia;
 }
