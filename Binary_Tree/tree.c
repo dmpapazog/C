@@ -7,8 +7,8 @@ void TREE_init(TREE_PTR *root) {
     *root = NULL;
 }
 
-int TREE_empty(TREE_PTR root) {
-    return root == NULL;
+int TREE_empty(TREE_PTR node) {
+    return node == NULL;
 }
 
 element TREE_data(TREE_PTR node) {
@@ -16,10 +16,10 @@ element TREE_data(TREE_PTR node) {
 }
 
 int TREE_insert_root(TREE_PTR *root, element x) {
-    TREE_PTR newNode;
-    if (*root != NULL)
+    if (!TREE_empty(*root))
         return FALSE;
     
+    TREE_PTR newNode;
     newNode = (TREE_PTR)malloc(sizeof(TREE_NODE));
     if (!newNode) {
         printf("Adunemia deumeshs mnhmhs");
@@ -34,18 +34,18 @@ int TREE_insert_root(TREE_PTR *root, element x) {
 }
 
 int TREE_insert_left(TREE_PTR node, element x) {
-    TREE_PTR newNode;
-    if (node->left != NULL)
+    if (!TREE_empty(node->left))
         return FALSE;
     
+    TREE_PTR newNode;
     newNode = (TREE_PTR)malloc(sizeof(TREE_NODE));
     if (!newNode) {
         printf("Adunemia deumeshs mnhmhs");
         return FALSE;
     }
 
-    newNode->data = x;
-    newNode->left = NULL;
+    newNode->data  = x;
+    newNode->left  = NULL;
     newNode->right = NULL;
 
     node->left = newNode;
@@ -53,18 +53,18 @@ int TREE_insert_left(TREE_PTR node, element x) {
 }
 
 int TREE_insert_right(TREE_PTR node, element x) {
-    TREE_PTR newNode;
-    if (node->right != NULL)
+    if (!TREE_empty(node->right))
         return FALSE;
     
+    TREE_PTR newNode;
     newNode = (TREE_PTR)malloc(sizeof(TREE_NODE));
     if (!newNode) {
         printf("Adunemia deumeshs mnhmhs");
         return FALSE;
     }
 
-    newNode->data = x;
-    newNode->left = NULL;
+    newNode->data  = x;
+    newNode->left  = NULL;
     newNode->right = NULL;
 
     node->right = newNode;
@@ -72,7 +72,7 @@ int TREE_insert_right(TREE_PTR node, element x) {
 }
 
 int TREE_delete_root(TREE_PTR *root, element *x) {
-    if ((*root)->left != NULL || (*root)->right != NULL)
+    if (!TREE_empty((*root)->left) || !TREE_empty((*root)->right))
         return FALSE;
 
     *x = (*root)->data;
@@ -83,12 +83,12 @@ int TREE_delete_root(TREE_PTR *root, element *x) {
 }
 
 int TREE_delete_left(TREE_PTR parent, element *x) {
-    TREE_PTR current = NULL;
-    if (parent->left == NULL)
+    if (TREE_empty(parent->left))
         return FALSE;
     
+    TREE_PTR current = NULL;
     current = parent->left;
-    if (current->left != NULL || current->right != NULL)
+    if (!TREE_empty(current->left) || !TREE_empty(current->right))
         return FALSE;
     
     *x = current->data;
@@ -98,12 +98,12 @@ int TREE_delete_left(TREE_PTR parent, element *x) {
 }
 
 int TREE_delete_right(TREE_PTR parent, element *x) {
-    TREE_PTR current = NULL;
-    if (parent->right == NULL)
+    if (TREE_empty(parent->right))
         return FALSE;
     
+    TREE_PTR current = NULL;
     current = parent->right;
-    if (current->left != NULL || current->right != NULL)
+    if (!TREE_empty(current->left) || !TREE_empty(current->right))
         return FALSE;
     
     *x = current->data;
@@ -113,7 +113,7 @@ int TREE_delete_right(TREE_PTR parent, element *x) {
 }
 
 void TREE_preorder(TREE_PTR node) {
-    if (node != NULL) {
+    if (!TREE_empty(node)) {
         TREE_print_node(node);
         TREE_preorder(node->left);
         TREE_preorder(node->right);
@@ -121,7 +121,7 @@ void TREE_preorder(TREE_PTR node) {
 }
 
 void TREE_inorder(TREE_PTR node) {
-    if (node != NULL) {
+    if (!TREE_empty(node)) {
         TREE_inorder(node->left);
         TREE_print_node(node);
         TREE_inorder(node->right);
@@ -129,7 +129,7 @@ void TREE_inorder(TREE_PTR node) {
 }
 
 void TREE_postorder(TREE_PTR node) {
-    if (node != NULL) {
+    if (!TREE_empty(node)) {
         TREE_postorder(node->left);
         TREE_postorder(node->right);
         TREE_print_node(node);
@@ -141,15 +141,15 @@ void TREE_print_node(TREE_PTR node) {
 }
 
 void TREE_delete_tree(TREE_PTR *node) {
-    if ((*node)->left == NULL && (*node)->right == NULL) {
+    if (TREE_empty((*node)->left) && TREE_empty((*node)->right)) {
         free(*node);
         *node = NULL;
     }
     else {
-        if ((*node)->left != NULL) {
+        if (!TREE_empty((*node)->left)) 
             TREE_delete_tree(&(*node)->left);
-        }
-        if ((*node)->right != NULL)
+        
+        if (!TREE_empty((*node)->right))
             TREE_delete_tree(&(*node)->right);
     }
 }
