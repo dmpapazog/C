@@ -4,62 +4,50 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
-            "type": "shell",
-            "dependsOn": "compile",
-            "command": "cd",
-            "args": [
-                "${fileDirname};",
-                "gcc",
-                "-g",
-                "*.o",
-                "-o",
-                "${fileBasenameNoExtension}.exe",
-                // "-m32",
-                // "-g3"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "presentation": {
-                "echo": true,
-                "reveal": "never",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
-            }
-        },
-        {
             "label": "compile",
             "type": "shell",
             "command": "cd",
             "args": [
                 "${fileDirname};",
                 "gcc",
-                "-g",
+                "-ggdb",
                 "-c",
-                "${fileBasename}",
+                "${fileBasename}"
+            ],
+            "problemMatcher": "$gcc",
+        },
+        {
+            "label": "build & run",
+            "type": "shell",
+            "dependsOn": "build",
+            "command": "cd",
+            "args": [
+                "${fileDirname};",
+                "./main.exe",
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": "$gcc",
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "cd",
+            "args": [
+                "${fileDirname};",
+                "gcc",
+                "-ggdb",
                 "-o",
-                "${fileBasenameNoExtension}.o",
-                // "-m32",
-                // "-g3"
+                "main.exe",
+                "*.o"
             ],
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "presentation": {
-                "echo": true,
-                "reveal": "never",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
-            }
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$gcc",
         },
         {
             "label": "compile all",
@@ -68,27 +56,11 @@
             "args": [
                 "${fileDirname};",
                 "gcc",
-                "-g",
+                "-ggdb",
                 "-c",
-                "*.c",
-                // "-m32",
-                // "-g3"
+                "*.c"
             ],
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "presentation": {
-                "echo": true,
-                "reveal": "never",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
-            },
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            }
+            "problemMatcher": "$gcc",
         },
         {
             "label": "clean",
@@ -97,19 +69,10 @@
             "args": [
                 "${fileDirname};",
                 "rm",
-                "*.o"
+                "*.o",
             ],
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "presentation": {
-                "echo": true,
-                "reveal": "never",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
-            }
-        }
+            "problemMatcher": "$gcc",
+        },
+
     ]
 }
