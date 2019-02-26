@@ -3,6 +3,7 @@
 
 int main(int argc, char const* argv[])
 {
+    
     FILE* file;
     file = fopen("list.txt", "r");
     if (file == NULL) {
